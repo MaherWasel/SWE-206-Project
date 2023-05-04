@@ -8,16 +8,78 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import static javafx.application.Application.launch;
 
 public class ViewController {
     private Stage stage; private Scene scene; private Parent root;
 
+    @FXML
+    private TextField idTextField;
+
+    @FXML
+    private TextField passwordTextField;
+
+    @FXML
+    void loginButtonTriggered(ActionEvent event) {
+        try{
+            String _url="https://us-central1-swe206-221.cloudfunctions.net/app/UserSignIn?username="+idTextField.getText()+"&password="+passwordTextField.getText();
+            URL url=new URL(_url);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            int status =connection.getResponseCode();
+            if (status!=200){
+                ErrorScene("log in failed");
+                return;
+            }
+            // these comments would be used later ..
+            // BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            // String inputLine;
+            // StringBuffer response = new StringBuffer();
+            
+            // while ((inputLine = in.readLine()) != null) {
+            //     response.append(inputLine);
+            // }
+            // in.close();
+            // String info=response.toString();
+            // // print result
+            // System.out.println(response);
+    
+            // System.out.println(status);
+            showMainScene(event);
+
+            
+    
+            }
+    
+            catch(IOException e){
+                System.out.println(e);
+                
+            }
+
+    }
+    void ErrorScene(String error){
+        Stage stage = new Stage();
+        stage.setTitle("ERROR");
+        BorderPane b=new BorderPane();
+        b.setCenter(new Text(error));
+        stage.setScene(new Scene(b, 200, 250));
+        stage.show();
+
+    }
 
     public void showLogin(ActionEvent event) throws IOException {
 
@@ -82,4 +144,5 @@ public class ViewController {
         stage.setScene(scene);
         stage.show();
     }
+
 }

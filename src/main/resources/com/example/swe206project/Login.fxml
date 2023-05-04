@@ -17,17 +17,12 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Button layoutX="14.0" layoutY="342.0" mnemonicParsing="false" onAction="#showNewAccount" prefHeight="44.0" prefWidth="105.0" text="Create Account">
+      <Button layoutX="247.0" layoutY="289.0" mnemonicParsing="false" onAction="#loginButtonTriggered" prefHeight="44.0" prefWidth="105.0" text="Login">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Button layoutX="247.0" layoutY="289.0" mnemonicParsing="false" onAction="#showMainScene" prefHeight="44.0" prefWidth="105.0" text="Login">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Button>
-      <TextField layoutX="214.0" layoutY="97.0" prefHeight="34.0" prefWidth="171.0" />
-      <TextField layoutX="214.0" layoutY="210.0" prefHeight="34.0" prefWidth="171.0" />
+      <TextField fx:id="idTextField" layoutX="214.0" layoutY="97.0" prefHeight="34.0" prefWidth="171.0" />
+      <TextField fx:id="passwordTextField" layoutX="214.0" layoutY="210.0" prefHeight="34.0" prefWidth="171.0" />
    </children>
 </AnchorPane>

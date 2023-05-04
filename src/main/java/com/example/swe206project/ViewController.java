@@ -7,9 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -42,7 +45,7 @@ public class ViewController {
             connection.setReadTimeout(5000);
             int status =connection.getResponseCode();
             if (status!=200){
-                ErrorScene("log in failed");
+                ErrorScene("Error : Username or Password is wrong");
                 return;
             }
             // these comments would be used later ..
@@ -72,12 +75,11 @@ public class ViewController {
 
     }
     void ErrorScene(String error){
-        Stage stage = new Stage();
-        stage.setTitle("ERROR");
-        BorderPane b=new BorderPane();
-        b.setCenter(new Text(error));
-        stage.setScene(new Scene(b, 200, 250));
-        stage.show();
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Message");
+        alert.setHeaderText(error);
+        alert.show();
 
     }
 

@@ -38,6 +38,7 @@ public class DataBase {
             listOfSports=new ArrayList<>();
             ObjectOutputStream writingS =new ObjectOutputStream(new FileOutputStream(sportsFile));
             writingS.writeObject(listOfSports);
+            writingS.close();
         }
 
         }

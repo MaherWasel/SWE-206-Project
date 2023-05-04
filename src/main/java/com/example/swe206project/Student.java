@@ -8,8 +8,8 @@ public class Student extends User {
     private ArrayList<Record> records; // i put the records to be String because it could be 4-5 as a match score i
                                        // don't know what is it exactly
 
-    public Student(String name, String email, String password, int iD) {
-        super(name, email, password, iD);
+    public Student(String name, String email, String userName) {
+        super(name, email, userName);
         this.records = new ArrayList<Record>();
     }
 

@@ -1,16 +1,16 @@
 package com.example.swe206project;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
     private String name;
     private String email;
-    private String password;
-    private int iD;
+    private String userName;
 
-    public User(String name, String email, String password, int iD) {
+    public User(String name, String email, String userName) {
         this.name = name;
         this.email = email;
-        this.password = password;
-        this.iD = iD;
+        this.userName = userName;
     }
 
     public String getName() {
@@ -21,22 +21,17 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public int getiD() {
-        return iD;
+    public String getUserName() {
+        return userName;
     }
     // this will check if this is the same user excactly 
     public boolean equals(User obj) {
-        if (obj.getiD() == this.iD) {
+        if (obj.getUserName() == this.userName) {
             if (obj.getName().equals(this.name)) {
                 if (obj.getEmail().equals(this.email)) {
-                    if (obj.getPassword().equals(obj.getPassword())) {
-                        return true;
-                    } else
-                        return false;
+                    return true;
+                   
                 } else
                     return false;
             } else

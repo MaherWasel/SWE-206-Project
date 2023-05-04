@@ -1,4 +1,4 @@
-package com.example;
+package com.example.swe206project;
 
 public class Record {
     private String tournamentName;

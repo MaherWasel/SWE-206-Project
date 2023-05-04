@@ -1,4 +1,4 @@
-package com.example;
+package com.example.swe206project;
 
 public class User {
     private String name;

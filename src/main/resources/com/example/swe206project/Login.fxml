@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
    <children>
-      <Label layoutX="261.0" layoutY="44.0" text="Enter id">
+      <Label layoutX="220.0" layoutY="44.0" text="Enter Username">
          <font>
             <Font size="23.0" />
          </font></Label>
@@ -22,7 +22,7 @@
             <Font size="13.0" />
          </font>
       </Button>
-      <TextField fx:id="idTextField" layoutX="214.0" layoutY="97.0" prefHeight="34.0" prefWidth="171.0" />
+      <TextField fx:id="usernameTextField" layoutX="214.0" layoutY="97.0" prefHeight="34.0" prefWidth="171.0" />
       <TextField fx:id="passwordTextField" layoutX="214.0" layoutY="210.0" prefHeight="34.0" prefWidth="171.0" />
    </children>
 </AnchorPane>

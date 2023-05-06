@@ -23,22 +23,12 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-
 public class ViewController {
     private Stage stage; private Scene scene; private Parent root;
     private User user;
     @FXML
 
-    private TextField idTextField;
+    private TextField usernameTextField;
 
     @FXML
     private TextField passwordTextField;
@@ -46,7 +36,7 @@ public class ViewController {
     private Button newTButton;
 
  
-
+// instead of having it as a rigid method, it should be used in a branch of  if-else statement
     @FXML
     void validateNewTButton(ActionEvent event) throws IOException {
         if (getUser() instanceof Student){
@@ -94,6 +84,11 @@ public class ViewController {
 
     public void showNewTournament(ActionEvent event) throws IOException {
 
+        if (getUser() instanceof Student){
+            ErrorScene("Error : The user is not authorized");
+            return;
+        }
+        else{
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("NewTournament.fxml"));
         root=loader.load();
@@ -102,6 +97,7 @@ public class ViewController {
  
         stage.setScene(scene);
         stage.show();
+        }
     }
     public void showSelectedTournament(ActionEvent event) throws IOException {
 
@@ -114,6 +110,12 @@ public class ViewController {
     }
 
     public void showAddEditScores(ActionEvent event) throws IOException {
+        if (getUser() instanceof Student){
+            ErrorScene("Error : The user is not authorized");
+            return;
+        }
+        else{
+            showNewTournament(event);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddEditScores.fxml"));
         root=loader.load();
@@ -121,6 +123,7 @@ public class ViewController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        }
     }
     public void showViewMembers(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewMembers.fxml"));
@@ -133,7 +136,7 @@ public class ViewController {
     @FXML
     public  void loginButtonTriggered(ActionEvent event) {
         try{
-            String _url="https://us-central1-swe206-221.cloudfunctions.net/app/UserSignIn?username="+idTextField.getText()+"&password="+passwordTextField.getText();
+            String _url="https://us-central1-swe206-221.cloudfunctions.net/app/UserSignIn?username="+ usernameTextField.getText()+"&password="+passwordTextField.getText();
             URL url=new URL(_url);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
@@ -161,7 +164,7 @@ public class ViewController {
             String type;
             String email;
             if (listOfInfo.length==2){
-                name=idTextField.getText();
+                name= usernameTextField.getText();
                 type="admin";
                 email="";
             }
@@ -172,10 +175,10 @@ public class ViewController {
             }
 
             if (type.equals("student")){
-                user=new Student(name, email,idTextField.getText());
+                user=new Student(name, email, usernameTextField.getText());
             }
             else {
-                user=new Admin(name, email, idTextField.getText());
+                user=new Admin(name, email, usernameTextField.getText());
             }
             ObjectOutputStream writing =new ObjectOutputStream(new FileOutputStream(new File(("user.io"))));
             writing.writeObject(user);

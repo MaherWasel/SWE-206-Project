@@ -23,13 +23,24 @@ public class Team {
 
 
     public ArrayList<Student> getMembersList() {
-        return membersList;
+        return (ArrayList<Student>) membersList.clone();
     }
 
     public void addMembers(Student member) {
         this.membersList.add(member);
         this.numberOfMembers += 1; 
     }
+
+            //need to be added to the class diagram
+//the method will retrun true if they have the same member on both teams
+public boolean noMembersConflect(Team other){
+    ArrayList<Student> thisList=this.getMembersList();
+    ArrayList<Student> otherList=other.getMembersList();
+//  the following will only keep the comman elements between the lists
+    thisList.retainAll(otherList);
+
+    return (thisList.isEmpty());
+}
 
     public void removeMember(Student member) {
         this.membersList.remove(member);

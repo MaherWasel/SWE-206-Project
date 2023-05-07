@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Student extends User {
     private String teamName;
     private boolean teamMemeberState;
-    private ArrayList<Record> records; // i put the records to be String because it could be 4-5 as a match score i
-                                       // don't know what is it exactly
+    private ArrayList<Record> records; 
 
     public Student(String name, String email, String userName) {
         super(name, email, userName);

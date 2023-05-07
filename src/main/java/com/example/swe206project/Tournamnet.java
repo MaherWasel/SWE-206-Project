@@ -24,8 +24,8 @@ public class Tournamnet implements Serializable{
 
 
 
-    public Tournamnet(String name,  String sport ,boolean teamBased,boolean isElemination , int  numOfParticipants,
-     int DurnationBetweenMatches ,Date startDate,Date finshDate) {
+    public Tournamnet(String name, String sport ,boolean teamBased,boolean isElemination , int  numOfParticipants,
+     int DurnationBetweenMatches , Date startDate, Date finshDate) {
         this.sport=sport;
         this.name=name;
         this.teamBased=teamBased;
@@ -49,7 +49,11 @@ public class Tournamnet implements Serializable{
     public boolean isEleminationType(){
         return this.isElemination;
     } 
-    
+
+    public boolean isFinished(){
+        return this.finshed;
+    }
+
     public String toString(){
         return name;
     }
@@ -63,6 +67,9 @@ public class Tournamnet implements Serializable{
     public int getDuration() {
         //not sure 
         return this.DurationBetweenMatches;
+    }
+    public String getSport(){
+        return this.sport;
     }
 
     public ArrayList<Object> getParticipants() {

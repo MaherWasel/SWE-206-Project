@@ -40,10 +40,21 @@ public class Tournamnet implements Serializable{
         this.participants=new ArrayList<Object>();
 
         }
+
+
+        // boolean methods
+    public boolean isteamBased(){
+        return this.teamBased;
+    } 
+    public boolean isEleminationType(){
+        return this.isElemination;
+    } 
     
     public String toString(){
         return name;
     }
+
+    //the getters
 
     public String getName() {
         return this.name;
@@ -80,9 +91,21 @@ public class Tournamnet implements Serializable{
         }
         else 
             return false;
+        }
 
-        
+
+    public void addNewStageMatches(Match[] matches){
+        if (!stageMatches.isEmpty()){
+            Integer lastKey = new LinkedList<>(stageMatches.keySet()).getLast();
+            this.stageMatches.put(lastKey+1,matches);
+
+        }
+
+        else
+            this.stageMatches.put(1,matches);
     }
+
+
     //add to the class diagram
     public void updateRegisterationStatus(){
         if (participants.size()>=numOfParticipants)
@@ -130,7 +153,7 @@ public class Tournamnet implements Serializable{
             //the last match ------ e.g.-----(8 v 3)
             temparr[temparr.length-1]=new Match(teamL,conR.remove(0));
     
-            this.stageMatches.put(i , temparr);
+            this.addNewStageMatches(temparr);
         
             this.shiftForword(conTemp);
             conR=(ArrayList<Team>) conTemp.clone();

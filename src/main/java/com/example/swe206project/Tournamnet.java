@@ -101,20 +101,46 @@ public class Tournamnet implements Serializable{
         if (participants.size()<numOfParticipants && openRegsiteration){
             participants.add(newParticipant);
             this.updateRegisterationStatus();
-
         }
 
         else
             throw new Exception("reigesteration is closed");
+        }
 
 
 
-    }
-
-
-
-
-
+    //add to the class diagram
+        public  void RoundRobinRoundsGenerator(){
+            ArrayList<Object> conTemp=this.getParticipants();
+            Object teamL = conTemp.remove(numOfParticipants-1);
+    
+            ArrayList<Team> conR=(ArrayList<Team>) conTemp.clone();
+    
+            for (int i = 1; i < numOfParticipants; i++) {
+                //the list of matches
+               Match[] temparr=new Match[numOfParticipants/2];
+               //the first match ------ e.g.-----(7 v 6)
+               temparr[0]=new Match(conR.remove(numOfParticipants-2),conR.remove(numOfParticipants-3));
+    
+               int num=(conR.size()-1)/2;
+    
+                    for(int j=1;  j<temparr.length-1      ;j++){
+                        temparr[j]=new Match(conR.remove(conR.size()-1),conR.remove(0));
+                    }
+            //the last match ------ e.g.-----(8 v 3)
+            temparr[temparr.length-1]=new Match(teamL,conR.remove(0));
+    
+            this.stageMatches.put(i , temparr);
+        
+            this.shiftForword(conTemp);
+            conR=(ArrayList<Team>) conTemp.clone();
+        }
+    
+    
+        }
+        //need to be addedto the class diagram
+        private  void shiftForword(ArrayList<Object> arr){    arr.add(0, arr.remove(arr.size()-1));
+        }
 
 
 

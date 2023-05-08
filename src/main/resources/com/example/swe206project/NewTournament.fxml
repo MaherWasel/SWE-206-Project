@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onMousePressed="#loadSports" prefHeight="506.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
+<AnchorPane onMouseEntered="#loadSports" prefHeight="506.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
    <children>
       <Label alignment="CENTER" layoutX="123.0" layoutY="45.0" prefHeight="48.0" prefWidth="212.0" text="Tournament Name">
          <font>

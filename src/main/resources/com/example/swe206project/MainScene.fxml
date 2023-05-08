@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="555.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
+<AnchorPane onMouseEntered="#loadTournamnets" prefHeight="555.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
    <children>
-      <ListView layoutX="98.0" layoutY="104.0" prefHeight="266.0" prefWidth="481.0" />
+      <ListView fx:id="listOfShownTournamnet" layoutX="98.0" layoutY="104.0" prefHeight="266.0" prefWidth="481.0" />
       <Label layoutX="202.0" layoutY="32.0" text="List of tournaments">
          <font>
             <Font size="32.0" />

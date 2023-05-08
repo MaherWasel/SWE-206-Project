@@ -1,7 +1,11 @@
 package com.example.swe206project;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.*;
+
+import javafx.scene.control.DatePicker;
 
 public class Tournamnet implements Serializable{
     private String name;
@@ -9,8 +13,8 @@ public class Tournamnet implements Serializable{
     // numOfParticipants is the maximum number of participants 
     private int numOfParticipants;
     private int DurationBetweenMatches;
-    private Date startDate;
-    private Date fnishDate;
+    private LocalDate startDate;
+    private LocalDate fnishDate;
     private  boolean finshed;
     private boolean teamBased;
     private boolean isElemination;
@@ -25,14 +29,14 @@ public class Tournamnet implements Serializable{
 
 
     public Tournamnet(String name, String sport ,boolean teamBased,boolean isElemination , int  numOfParticipants,
-     int DurnationBetweenMatches , Date startDate, Date finshDate) {
+     int DurnationBetweenMatches , LocalDate startDate, LocalDate closingDate) {
         this.sport=sport;
         this.name=name;
         this.teamBased=teamBased;
         this.isElemination=isElemination;
         this.numOfParticipants=numOfParticipants;
         this.DurationBetweenMatches=DurnationBetweenMatches;
-        this.fnishDate=finshDate;
+        this.fnishDate=closingDate;
         this.startDate=startDate;
         this.finshed=false;
         this.openRegsiteration=true;

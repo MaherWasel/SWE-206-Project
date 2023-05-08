@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -35,6 +37,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.time.LocalDate;
 
 public class ViewController {
@@ -84,6 +87,7 @@ public class ViewController {
     @FXML
     private ToggleGroup tourType;
     private boolean loaded=false;
+    private boolean loadedT=false;
     private String selectedSport;
     private DatePicker startDate;
     private DatePicker closingDate;
@@ -92,6 +96,43 @@ public class ViewController {
 
     @FXML
     private TextField DurationBetweenMatches;
+    @FXML
+    private ListView<HBox> listOfShownTournamnet;
+
+    @FXML
+    void loadTournamnets(MouseEvent event) {
+        if (loadedT==false){
+        DataBase d=new DataBase();
+        HBox row=new HBox();
+
+        for (int i=0;i<d.getTournamnets().size();i++){
+            row=new HBox();
+            row.setSpacing(50);
+            VBox innerColumn=new VBox();
+            Label tournamnetName=new Label(d.getTournamnets().get(i).getName());
+            tournamnetName.setScaleX(1.4);
+            innerColumn.getChildren().add(tournamnetName);
+            HBox innerRow= new HBox();
+            Label sportLabel=new Label("Sport : "+d.getTournamnets().get(i).getSport());
+            sportLabel.setScaleX(1);
+
+            innerRow.getChildren().add(sportLabel);
+            Label statusLabel=new Label("status : closed");
+            statusLabel.setScaleX(1);
+            innerRow.setSpacing(20);
+            innerRow.getChildren().add(statusLabel);
+            innerColumn.getChildren().add(innerRow);
+            RadioButton choseTButton=new RadioButton();
+            choseTButton.setAlignment(Pos.CENTER_RIGHT);
+            row.getChildren().add(innerColumn);
+            row.getChildren().add(choseTButton);
+            row.setAlignment(Pos.CENTER);
+            listOfShownTournamnet.getItems().add(row);
+    
+        }
+    }   loadedT=true;
+
+    }
  
 // instead of having it as a rigid method, it should be used in a branch of  if-else statement
     @FXML
@@ -321,24 +362,51 @@ public class ViewController {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        Label checkInlabel = new Label("Check-In Date:");
+        Label checkInlabel = new Label("Registration Starting Date:");
         gridPane.add(checkInlabel, 0, 0);
         GridPane.setHalignment(checkInlabel, HPos.LEFT);
         gridPane.add(startDate, 0, 1);
-        Label checkOutlabel = new Label("Check-Out Date:");
+        Label checkOutlabel = new Label("Closing Starting Date:");
         gridPane.add(checkOutlabel, 0, 2);
         GridPane.setHalignment(checkOutlabel, HPos.LEFT);
         gridPane.add(closingDate, 0, 3);
         vbox.getChildren().add(gridPane);
     }
     
-  
-    @FXML
-    void confirmNewTournemantTriggered(ActionEvent event) {
-        System.out.println(startDate.getValue());
+    Boolean validateNewTInfo(String name, String sport , String  numOfParticipants,
+    String DurnationBetweenMatches ){
+        if (name.isEmpty())
+            return false;
+        if (selectedSport==null||selectedSport.isEmpty()){
+            return false;
+        }
+        return true;
 
 
     }
+    @FXML
+    void confirmNewTournemantTriggered(ActionEvent event) throws IOException {
+        String name=tournamnetName.getText();
+        String sport=selectedSport;
+        Boolean valid=validateNewTInfo(name, sport, numOfParticipants.getText(), DurationBetweenMatches.getText());
+        if (valid==false){
+            ErrorScene("not valid input");
+            return;
+        }
+        
+        boolean teamBased=teamType.isSelected();
+        boolean isElemination=eType.isSelected();
+        int  numOfParticipant=Integer.valueOf(numOfParticipants.getText());
+        int DurnationBetweenMatches=Integer.valueOf(DurationBetweenMatches.getText());
+        Tournamnet tournamnet=new Tournamnet(name, sport, teamBased, isElemination, numOfParticipant, DurnationBetweenMatches, startDate.getValue(), closingDate.getValue());
+
+        DataBase d=new DataBase();
+        d.addTournamnet(tournamnet);
+        loadedT=false;
+        showMainScene(event);
+
+    }
+
 
     @FXML
     void newSportTriggered(ActionEvent event) {

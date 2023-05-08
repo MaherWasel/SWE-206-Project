@@ -8,8 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -34,7 +39,48 @@ public class ViewController {
     private TextField passwordTextField;
     @FXML
     private Button newTButton;
+    @FXML
+    private Button confirmButton;
 
+    @FXML
+    private Button dateButton;
+
+    @FXML
+    private RadioButton eType;
+
+    @FXML
+    private ListView<String> listOfShownSports;
+
+    @FXML
+    private ToggleGroup memKind;
+
+    @FXML
+    private TextField newSportName;
+
+    @FXML
+    private TextField numOfParticipants;
+
+    @FXML
+    private RadioButton rType;
+
+    @FXML
+    private RadioButton soloType;
+
+    @FXML
+    private Button submitingNewSport;
+
+    @FXML
+    private RadioButton teamType;
+
+    @FXML
+    private ToggleGroup tourType;
+    private boolean loaded=false;
+
+    @FXML
+    private TextField tournamnetName;
+
+    @FXML
+    private TextField DurationBetweenMatches;
  
 // instead of having it as a rigid method, it should be used in a branch of  if-else statement
     @FXML
@@ -84,17 +130,17 @@ public class ViewController {
 
     public void showNewTournament(ActionEvent event) throws IOException {
 
+
         if (getUser() instanceof Student){
             ErrorScene("Error : The user is not authorized");
             return;
         }
         else{
-
+            ;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("NewTournament.fxml"));
         root=loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
- 
         stage.setScene(scene);
         stage.show();
         }
@@ -108,7 +154,17 @@ public class ViewController {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML
+    void loadSports(MouseEvent event) {
+        DataBase d=new DataBase();
+        if (loaded==false){
+            for (int i=0;i<d.getSports().size();i++){
+            listOfShownSports.getItems().add(d.getSports().get(i));
+        }
+        this.loaded=true;
+}
 
+    }
     public void showAddEditScores(ActionEvent event) throws IOException {
         if (getUser() instanceof Student){
             ErrorScene("Error : The user is not authorized");
@@ -189,6 +245,7 @@ public class ViewController {
                 System.out.println(e);
             }
     }
+
     public User getUser(){
         try{
             ObjectInputStream reading=new ObjectInputStream(new FileInputStream(new File("user.io")));
@@ -206,6 +263,38 @@ public class ViewController {
 
         }
     }
+    
+  
+    @FXML
+    void confirmNewTournemantTriggered(ActionEvent event) {
+        System.out.println("round robin = " + rType.isSelected());
+        System.out.println("name = "+ tournamnetName.getText());
+        System.out.println("duration = "+ DurationBetweenMatches.getText());
+
+        System.out.println("solo = "+ soloType.isSelected());
+
+    }
+
+    @FXML
+    void newSportTriggered(ActionEvent event) {
+        DataBase d=new DataBase();
+        if (d.sportExist(newSportName.getText()))
+            return;
+        d.addSport(newSportName.getText());
+        listOfShownSports.getItems().add(newSportName.getText());
+
+
+    }
+
+    @FXML
+    void selectDateTriggered(ActionEvent event) {
+        System.out.println("wadaw");
+
+    }
+
+
+
+
 
 
 }

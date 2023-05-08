@@ -80,6 +80,9 @@ public class DataBase {
     public void test(){
         System.out.println(listOfTournamnets+" "+listOfSports);
     }
+    public List<String> getSports(){
+        return listOfSports;
+    }
     public boolean tournamnetExist(Tournamnet tournamnet){
         for (int i=0;i<listOfTournamnets.size();i++){
             if (listOfTournamnets.get(i).equals(tournamnet)){

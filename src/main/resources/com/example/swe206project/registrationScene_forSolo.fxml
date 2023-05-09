@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="543.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
+   <children>
+      <Label layoutX="115.0" layoutY="199.0" text="Enter the username of the student">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="43.0" layoutY="27.0" onMouseClicked="#showSelectedTournament" text="BACK">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TextField fx:id="singleStudentTextField" layoutX="107.0" layoutY="243.0" prefHeight="55.0" prefWidth="244.0" />
+      <Button layoutX="364.0" layoutY="245.0" mnemonicParsing="false" onAction="#RegisterSingleStudent" prefHeight="55.0" prefWidth="190.0" text="Submit">
+         <font>
+            <Font size="26.0" />
+         </font></Button>
+   </children>
+</AnchorPane>

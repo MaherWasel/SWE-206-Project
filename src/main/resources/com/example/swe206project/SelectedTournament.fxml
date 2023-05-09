@@ -7,7 +7,7 @@
 
 <AnchorPane onMouseEntered="#loadTName" prefHeight="543.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
    <children>
-      <Button layoutX="50.0" layoutY="445.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="104.0" text="Register" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0">
+      <Button layoutX="50.0" layoutY="445.0" mnemonicParsing="false" onAction="#showRegister" prefHeight="49.0" prefWidth="104.0" text="Register" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0">
          <font>
             <Font size="19.0" />
          </font>

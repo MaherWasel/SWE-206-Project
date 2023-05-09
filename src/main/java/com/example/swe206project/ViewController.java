@@ -86,6 +86,11 @@ public class ViewController {
     private RadioButton teamType;
 
     @FXML
+    private TextField singleStudentTextField;
+
+   
+
+    @FXML
     private ToggleGroup tourType;
     private boolean loaded=false;
     private boolean loadedT=false;
@@ -102,6 +107,11 @@ public class ViewController {
     @FXML
     private Label tournamnetVisibleName;
     boolean loadedTName=false;
+    @FXML
+    private ListView<?> RegistrationList;
+
+    @FXML
+    private TextField sizeOfTeam_textField;
 
     @FXML
     void loadTournamnets(MouseEvent event) {
@@ -114,18 +124,30 @@ public class ViewController {
             row=new HBox();
             row.setSpacing(50);
             VBox innerColumn=new VBox();
-            Label tournamnetName=new Label(tournamnet.getName());
-            tournamnetName.setScaleX(1.4);
+            Label tournamnetName=new Label(tournamnet.getName().toUpperCase());
+            tournamnetName.setScaleX(1.2);
             innerColumn.getChildren().add(tournamnetName);
-            HBox innerRow= new HBox();
-            Label sportLabel=new Label("Sport : "+tournamnet.getSport());
-            sportLabel.setScaleX(1);
+            String tType;
+            if (tournamnet.isEleminationType()){
+                tType="Elemination";
+            }
+            else {
+                tType="Round Robin";
+            }
+            String participating;
+            if (tournamnet.isteamBased()){
+                participating="teamBased";
 
-            innerRow.getChildren().add(sportLabel);
-            Label statusLabel=new Label("status : closed");
-            statusLabel.setScaleX(1);
-            innerRow.setSpacing(20);
-            innerRow.getChildren().add(statusLabel);
+            }
+            else {
+                participating= "Indivisual";
+            }
+            HBox innerRow= new HBox();
+            Label innerLabel=new Label("Sport : "+tournamnet.getSport()+","+" Participating : "+ participating+","+" Type : "+tType+","+"  status : closed");
+            innerLabel.setScaleX(1);
+
+            innerRow.getChildren().add(innerLabel);
+          
             innerColumn.getChildren().add(innerRow);
             row.getChildren().add(innerColumn);
             row.setAlignment(Pos.CENTER);
@@ -169,6 +191,20 @@ public class ViewController {
         tournamnetVisibleName.setMinSize(30,35);
 
     }
+    @FXML
+    void loadListOfRegistration(ActionEvent event) {
+
+    }
+    @FXML
+    void RegisterSingleStudent(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void registrationConfirmTriggered(MouseEvent event) {
+
+    }
     
 
 
@@ -191,6 +227,27 @@ public class ViewController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    public void showRegister(ActionEvent event) throws IOException {
+        if (getSelectedTournamnet().isteamBased()){
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("registationScene_forTeams.fxml"));
+        root=loader.load();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+        if (getUser() instanceof Admin && !getSelectedTournamnet().isteamBased()){
+            
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("registrationScene_forSolo.fxml"));
+        root=loader.load();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        }
     }
     public void showMainScene(ActionEvent event) throws IOException {
 
@@ -254,12 +311,6 @@ public class ViewController {
     }
 
     public void showAddEditScores(ActionEvent event) throws IOException {
-        if (getUser() instanceof Student){
-            ErrorScene("Error : The user is not authorized");
-            return;
-        }
-        else{
-            showNewTournament(event);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddEditScores.fxml"));
         root=loader.load();
@@ -267,7 +318,7 @@ public class ViewController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        }
+        
     }
     public void showViewMembers(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewMembers.fxml"));

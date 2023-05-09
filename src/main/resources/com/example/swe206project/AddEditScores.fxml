@@ -7,17 +7,17 @@
 
 <AnchorPane prefHeight="513.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
    <children>
-      <Button layoutX="22.0" layoutY="445.0" mnemonicParsing="false" onAction="#showSelectedTournament" prefHeight="22.0" prefWidth="88.0" text="Back" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Button>
       <Button layoutX="536.0" layoutY="445.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="88.0" text="Confirm" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <font>
             <Font size="17.0" />
          </font>
       </Button>
       <Label layoutX="244.0" layoutY="114.0" prefHeight="117.0" prefWidth="206.0" text="the editing of the scores will be done here" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="14.0" onMouseClicked="#showSelectedTournament" prefHeight="88.0" prefWidth="88.0" text="BACK">
          <font>
             <Font size="22.0" />
          </font>

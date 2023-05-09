@@ -7,14 +7,16 @@ public class Team {
     private int numberOfMembers;
     private ArrayList<Student> membersList;
 
-    public Team(String name) {
-        this.name = name;
+    public Team() {
         this.numberOfMembers = 0;
         this.membersList = new ArrayList<>();
     }
 
     public String getName() {
         return name;
+    }
+    public void setName(String name){
+        this.name=name;
     }
 
     public int getNumberOfMembers() {

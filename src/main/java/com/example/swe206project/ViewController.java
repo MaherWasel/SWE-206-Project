@@ -21,6 +21,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -61,7 +62,7 @@ public class ViewController {
     private RadioButton eType;
 
     @FXML
-    private ListView<Button> listOfShownSports;
+    private ListView<Label> listOfShownSports;
 
     @FXML
     private ToggleGroup memKind;
@@ -93,11 +94,14 @@ public class ViewController {
     private DatePicker closingDate;
     @FXML
     private TextField tournamnetName;
-
+    private Tournamnet selectedTournamnet;
     @FXML
     private TextField DurationBetweenMatches;
     @FXML
     private ListView<HBox> listOfShownTournamnet;
+    @FXML
+    private Label tournamnetVisibleName;
+    boolean loadedTName=false;
 
     @FXML
     void loadTournamnets(MouseEvent event) {
@@ -106,14 +110,15 @@ public class ViewController {
         HBox row=new HBox();
 
         for (int i=0;i<d.getTournamnets().size();i++){
+            Tournamnet tournamnet=d.getTournamnets().get(i);
             row=new HBox();
             row.setSpacing(50);
             VBox innerColumn=new VBox();
-            Label tournamnetName=new Label(d.getTournamnets().get(i).getName());
+            Label tournamnetName=new Label(tournamnet.getName());
             tournamnetName.setScaleX(1.4);
             innerColumn.getChildren().add(tournamnetName);
             HBox innerRow= new HBox();
-            Label sportLabel=new Label("Sport : "+d.getTournamnets().get(i).getSport());
+            Label sportLabel=new Label("Sport : "+tournamnet.getSport());
             sportLabel.setScaleX(1);
 
             innerRow.getChildren().add(sportLabel);
@@ -122,12 +127,24 @@ public class ViewController {
             innerRow.setSpacing(20);
             innerRow.getChildren().add(statusLabel);
             innerColumn.getChildren().add(innerRow);
-            RadioButton choseTButton=new RadioButton();
-            choseTButton.setAlignment(Pos.CENTER_RIGHT);
             row.getChildren().add(innerColumn);
-            row.getChildren().add(choseTButton);
             row.setAlignment(Pos.CENTER);
+            row.setOnMouseClicked(e->{
+                
+                try {
+
+                    ObjectOutputStream w=new ObjectOutputStream(new FileOutputStream(new File("tourney.io")));
+                    w.writeObject(tournamnet);
+                    showSelectedTournament(event);
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+    
+                
+            });
             listOfShownTournamnet.getItems().add(row);
+
     
         }
     }   loadedT=true;
@@ -144,6 +161,12 @@ public class ViewController {
         else{
             showNewTournament(event);
         }
+
+    }
+    @FXML
+    void loadTName(MouseEvent event) {
+        tournamnetVisibleName.setText(getSelectedTournamnet().getName());
+        tournamnetVisibleName.setMinSize(30,35);
 
     }
     
@@ -198,7 +221,7 @@ public class ViewController {
         stage.show();
         }
     }
-    public void showSelectedTournament(ActionEvent event) throws IOException {
+    public void showSelectedTournament(MouseEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectedTournament.fxml"));
         root=loader.load();
@@ -209,7 +232,6 @@ public class ViewController {
     }
     void selectSport(String selectedSport){
         this.selectedSport=selectedSport;
-        System.out.println(selectedSport);
     }
     @FXML
     void loadSports(MouseEvent event) {
@@ -218,12 +240,13 @@ public class ViewController {
 
         if (loaded==false){
             for ( i=0;i<d.getSports().size();i++){
-                Button sportButton=new Button(d.getSports().get(i));
-                sportButton.setOnAction(e->{
-                    selectSport(sportButton.getText())  ;   
+                Label sportLabel=new Label(d.getSports().get(i));
+                sportLabel.setMinWidth(Double.POSITIVE_INFINITY);
+                sportLabel.setOnMousePressed(e->{
+                    selectSport(sportLabel.getText())  ;
                 });
             
-            listOfShownSports.getItems().add(sportButton);
+            listOfShownSports.getItems().add(sportLabel);
         }
         this.loaded=true;
 }
@@ -276,7 +299,6 @@ public class ViewController {
 
                 response.append(inputLine);
             }
-            System.out.println(response);
             in.close();
             String info =response.toString();
             info =info.substring(1, info.length()-1);
@@ -315,6 +337,24 @@ public class ViewController {
         try{
             ObjectInputStream reading=new ObjectInputStream(new FileInputStream(new File("user.io")));
             return (User)reading.readObject();
+        }
+        catch(IOException e){
+            System.out.println(e);
+
+            return null;
+            
+        }
+        catch(ClassNotFoundException e){
+            System.out.println(e);
+            return null;
+
+        }
+    }
+    
+    public Tournamnet getSelectedTournamnet(){
+        try{
+            ObjectInputStream reading=new ObjectInputStream(new FileInputStream(new File("tourney.io")));
+            return (Tournamnet)reading.readObject();
         }
         catch(IOException e){
             System.out.println(e);
@@ -414,10 +454,12 @@ public class ViewController {
         if (d.sportExist(newSportName.getText()))
             return;
         d.addSport(newSportName.getText());
-        Button sportButton=new Button(newSportName.getText());
-        listOfShownSports.getItems().add(sportButton);
-        sportButton.setOnAction(e->{
-            selectSport(sportButton.getText())     ;
+        Label sportLabel=new Label(newSportName.getText());
+        listOfShownSports.getItems().add(sportLabel);
+        sportLabel.setOnMouseClicked(e->{
+            sportLabel.setMinWidth(Double.POSITIVE_INFINITY);
+
+            selectSport(sportLabel.getText())     ;
         });
 
 

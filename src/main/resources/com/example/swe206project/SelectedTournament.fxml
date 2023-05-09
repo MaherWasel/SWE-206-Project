@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="543.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
+<AnchorPane onMouseEntered="#loadTName" prefHeight="543.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
    <children>
       <Button layoutX="50.0" layoutY="445.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="104.0" text="Register" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0">
          <font>
@@ -27,5 +28,6 @@
          </font>
       </Button>
       <Button layoutX="24.0" layoutY="28.0" mnemonicParsing="false" onAction="#showMainScene" prefHeight="29.0" prefWidth="51.0" text="BACK" />
+      <Label fx:id="tournamnetVisibleName" layoutX="325.0" layoutY="34.0" />
    </children>
 </AnchorPane>

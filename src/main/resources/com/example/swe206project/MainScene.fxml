@@ -19,15 +19,5 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="522.0" layoutY="480.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="128.0" text="Select" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="244.0" layoutY="404.0" mnemonicParsing="false" onAction="#showSelectedTournament" prefHeight="116.0" prefWidth="167.0" text="TEMP: GO NEXT" textFill="RED" wrapText="true">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

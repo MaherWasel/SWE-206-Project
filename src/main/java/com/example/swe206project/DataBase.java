@@ -49,6 +49,22 @@ public class DataBase {
             System.out.println(e);
         }
     }
+    public void updateTournament(Tournamnet tournamnet){
+        for (int i=0;i<listOfTournamnets.size();i++){
+            if (listOfTournamnets.get(i).getName().equals(tournamnet.getName())){
+                listOfTournamnets.set(i, tournamnet);
+                try {
+                    ObjectOutputStream writingT =new ObjectOutputStream(new FileOutputStream(tournamnetsFile));
+                    writingT.writeObject(listOfTournamnets);
+                    writingT.close();
+                }
+                catch(IOException e){
+                    System.out.println(e);
+        
+                }
+            }
+        }
+    }
     public void addTournamnet(Tournamnet tournamnet){
         if (!this.tournamnetExist(tournamnet)){
         listOfTournamnets.add(tournamnet);

@@ -126,6 +126,7 @@ public class Tournamnet implements Serializable{
 
     //add to the class diagram
     public void addParticipant(Object newParticipant)throws  Exception{
+
         //make sure they are from the same class
         if (((newParticipant instanceof Team) && !teamBased)
         ||  ((newParticipant instanceof Student) && teamBased))

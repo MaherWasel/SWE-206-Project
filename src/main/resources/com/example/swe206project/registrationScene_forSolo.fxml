@@ -13,7 +13,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <Label layoutX="43.0" layoutY="27.0" onMouseClicked="#showSelectedTournament" text="BACK">
+      <Label fx:id="BackButton" layoutX="43.0" layoutY="27.0" onMouseClicked="#showSelectedTournament" text="BACK">
          <font>
             <Font size="21.0" />
          </font>

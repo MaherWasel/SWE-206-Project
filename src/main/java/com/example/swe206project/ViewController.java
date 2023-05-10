@@ -98,6 +98,9 @@ public class ViewController {
     private DatePicker startDate;
     private DatePicker closingDate;
     @FXML
+    private Label BackButton;
+
+    @FXML
     private TextField tournamnetName;
     private Tournamnet selectedTournamnet;
     @FXML
@@ -196,13 +199,80 @@ public class ViewController {
 
     }
     @FXML
-    void RegisterSingleStudent(ActionEvent event) {
+    void RegisterSingleStudent(ActionEvent event) throws Exception {
+       {
+            try{
+                String _url="https://us-central1-swe206-221.cloudfunctions.net/app/User?username="+ singleStudentTextField.getText();
+                URL url=new URL(_url);
+                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setConnectTimeout(5000);
+                
+                connection.setReadTimeout(5000);
+                int status =connection.getResponseCode();
+                if (status!=200){
+                    ErrorScene("Error : Username not found");
+                    return;
+                }
+
+                User _user;
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                
+                while ((inputLine = in.readLine()) != null) {
+    
+                    response.append(inputLine);
+                }
+                in.close();
+                String info =response.toString();
+                info =info.substring(1, info.length()-1);
+                String[] listOfInfo=info.split(":");
+                String name;
+                String email;
+                if (listOfInfo.length==2){
+                    ErrorScene("Error : admins can not participate");
+                    return;
+                }
+                else {
+                 name=listOfInfo[1].substring(1, listOfInfo[1].lastIndexOf(",")-1);
+                 email=listOfInfo[3].substring(1,listOfInfo[3].length()-1);
+                }
+
+                _user=new Student(name, email, singleStudentTextField.getText());
+                Tournamnet _t=getSelectedTournamnet();
+                _t.addParticipant(_user);
+                updateTournamentInfo(_t);
+                BackButton.fireEvent(event);
+                ErrorScene("the student is register");
+
+              
+                }
+                catch(IOException e){
+                    System.out.println(e);
+                }
+        }
 
     }
 
 
     @FXML
-    void registrationConfirmTriggered(MouseEvent event) {
+    void registrationConfirmTriggered(MouseEvent event) throws Exception {
+        
+    }
+    void updateTournamentInfo(Tournamnet tournamnet){
+        try {
+
+            ObjectOutputStream w=new ObjectOutputStream(new FileOutputStream(new File("tourney.io")));
+            w.writeObject(tournamnet);
+            w.close();
+            DataBase d=new DataBase();
+            d.updateTournament(tournamnet);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
     }
     
@@ -229,6 +299,10 @@ public class ViewController {
         stage.show();
     }
     public void showRegister(ActionEvent event) throws IOException {
+        if (getSelectedTournamnet().isFinished()){
+            ErrorScene("Error : the tournamnet is finished");
+            return;
+        }
         if (getSelectedTournamnet().isteamBased()){
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("registationScene_forTeams.fxml"));

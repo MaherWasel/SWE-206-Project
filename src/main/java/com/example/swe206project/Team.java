@@ -1,13 +1,16 @@
 package com.example.swe206project;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Team {
+public class Team  implements Serializable{
     private String name;
     private int numberOfMembers;
     private ArrayList<Student> membersList;
 
-    public Team() {
+    public Team(String name,ArrayList<Student> membersList) {
+        this.name=name;
+        this.membersList=membersList;
         this.numberOfMembers = 0;
         this.membersList = new ArrayList<>();
     }

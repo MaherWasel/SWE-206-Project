@@ -21,10 +21,15 @@
       </Label>
       <TextField fx:id="sizeOfTeam_textField" layoutX="152.0" layoutY="124.0" prefHeight="26.0" prefWidth="190.0" />
       <Button layoutX="354.0" layoutY="124.0" mnemonicParsing="false" onAction="#loadListOfRegistration" prefHeight="26.0" prefWidth="102.0" text="Submit" />
-      <ListView fx:id="RegistrationList" layoutX="142.0" layoutY="188.0" prefHeight="278.0" prefWidth="400.0" />
+      <ListView fx:id="RegistrationList" layoutX="142.0" layoutY="224.0" prefHeight="242.0" prefWidth="400.0" />
       <Label layoutX="542.0" layoutY="478.0" onMouseClicked="#registrationConfirmTriggered" prefHeight="31.0" prefWidth="124.0" text="Confirm">
          <font>
             <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelLoad" layoutX="141.0" layoutY="185.0" prefHeight="27.0" prefWidth="400.0">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
    </children>

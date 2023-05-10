@@ -87,6 +87,9 @@ public class Tournamnet implements Serializable{
     public int getNumOfParticipants(){
         return numOfParticipants;
     }
+    public int getNumOfRegistredParticipants(){
+        return participants.size();
+    }
 
     public void stopRegsteration(){
         this.openRegsiteration=false;

@@ -16,6 +16,7 @@ public class Student extends User {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
+ 
 
     // this will be used to cahnge the condition of the student when he join a team
     public void setTeamMemeberStatue(boolean teamMemeberState) {
@@ -55,5 +56,8 @@ public class Student extends User {
     public void removeLastRecord() {
         int indx = this.records.size();
         this.records.remove(indx - 1);
+    }
+    public String toString(){
+        return super.getName();
     }
 }

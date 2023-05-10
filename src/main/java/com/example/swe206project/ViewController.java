@@ -40,6 +40,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewController {
     private Stage stage; private Scene scene; private Parent root;
@@ -47,6 +49,9 @@ public class ViewController {
     @FXML
 
     private TextField usernameTextField;
+    
+    @FXML
+    private Label labelLoad;
 
     @FXML
     private TextField passwordTextField;
@@ -111,7 +116,7 @@ public class ViewController {
     private Label tournamnetVisibleName;
     boolean loadedTName=false;
     @FXML
-    private ListView<?> RegistrationList;
+    private ListView<TextField> RegistrationList;
 
     @FXML
     private TextField sizeOfTeam_textField;
@@ -196,11 +201,28 @@ public class ViewController {
     }
     @FXML
     void loadListOfRegistration(ActionEvent event) {
+        
+        if (sizeOfTeam_textField.getText().isEmpty()){
+            ErrorScene("Error : sizeOfTeam is not entered");
+            return;
+        }
+        try{
+            int size=Integer.valueOf(sizeOfTeam_textField.getText());
+            labelLoad.setText("Enter usernames of the students");
+            for (int i=0;i<size;i++){
+                TextField in=new TextField();
+                RegistrationList.getItems().add(in);
+                        }
+
+        }catch(NumberFormatException e){
+            ErrorScene("Error : not a valid input");
+        }
 
     }
     @FXML
     void RegisterSingleStudent(ActionEvent event) throws Exception {
        {
+  
             try{
                 String _url="https://us-central1-swe206-221.cloudfunctions.net/app/User?username="+ singleStudentTextField.getText();
                 URL url=new URL(_url);
@@ -244,8 +266,7 @@ public class ViewController {
                 Tournamnet _t=getSelectedTournamnet();
                 _t.addParticipant(_user);
                 updateTournamentInfo(_t);
-                BackButton.fireEvent(event);
-                ErrorScene("the student is register");
+                ErrorScene("the student is registered");
 
               
                 }
@@ -259,6 +280,65 @@ public class ViewController {
 
     @FXML
     void registrationConfirmTriggered(MouseEvent event) throws Exception {
+        List<TextField> listOfUserNames=RegistrationList.getItems();
+        ArrayList<Student> registredStudents=new ArrayList<>();
+        for (int i=0;i<listOfUserNames.size();i++){
+            try{
+                String _url="https://us-central1-swe206-221.cloudfunctions.net/app/User?username="+ listOfUserNames.get(i).getText();
+                URL url=new URL(_url);
+                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setConnectTimeout(5000);
+                
+                connection.setReadTimeout(5000);
+                int status =connection.getResponseCode();
+                if (status!=200){
+                    ErrorScene("Error : Username of student number "+(i+1)+" not found");
+                    return;
+                }
+
+                User _user;
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                
+                while ((inputLine = in.readLine()) != null) {
+    
+                    response.append(inputLine);
+                }
+                in.close();
+                String info =response.toString();
+                info =info.substring(1, info.length()-1);
+                String[] listOfInfo=info.split(":");
+                String name;
+                String email;
+                if (listOfInfo.length==2){
+                    ErrorScene("Error : admins can not participate");
+                    return;
+                }
+                else {
+                 name=listOfInfo[1].substring(1, listOfInfo[1].lastIndexOf(",")-1);
+                 email=listOfInfo[3].substring(1,listOfInfo[3].length()-1);
+                }
+
+                _user=new Student(name, email, listOfUserNames.get(i).getText());
+                registredStudents.add((Student)_user);
+
+              
+                }
+                catch(IOException e){
+                    System.out.println(e);
+                }
+        }
+        Team team=new Team("TEAM "+(getSelectedTournamnet().getNumOfRegistredParticipants()+1), registredStudents);
+        Tournamnet _t=getSelectedTournamnet();
+        
+        _t.addParticipant(team);
+        
+        updateTournamentInfo(_t);
+        ErrorScene("the team is registered");
+        
         
     }
     void updateTournamentInfo(Tournamnet tournamnet){
@@ -298,7 +378,8 @@ public class ViewController {
         stage.setScene(scene);
         stage.show();
     }
-    public void showRegister(ActionEvent event) throws IOException {
+    public void showRegister(ActionEvent event) throws Exception {
+        
         if (getSelectedTournamnet().isFinished()){
             ErrorScene("Error : the tournamnet is finished");
             return;
@@ -321,6 +402,16 @@ public class ViewController {
         stage.setScene(scene);
         stage.show();
 
+
+        }
+        if (getUser() instanceof Student && !getSelectedTournamnet().isteamBased() &&!getSelectedTournamnet().isFinished()){
+        
+                Tournamnet _t=getSelectedTournamnet();
+                _t.addParticipant(getUser());
+                updateTournamentInfo(_t);
+                ErrorScene("the student is registereed");
+                
+            
         }
     }
     public void showMainScene(ActionEvent event) throws IOException {
@@ -395,6 +486,16 @@ public class ViewController {
         
     }
     public void showViewMembers(ActionEvent event) throws IOException {
+        if (!getSelectedTournamnet().isteamBased()){
+        for (int i=0;i<getSelectedTournamnet().getParticipants().size();i++){
+            System.out.println(((Student)getSelectedTournamnet().getParticipants().get(i)).getName());
+        }
+        }
+        else {
+            for (int i=0;i<getSelectedTournamnet().getParticipants().size();i++){
+                System.out.println(((Team)getSelectedTournamnet().getParticipants().get(i)).getName());
+            }
+        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewMembers.fxml"));
         root=loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

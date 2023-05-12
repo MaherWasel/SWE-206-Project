@@ -190,7 +190,7 @@ public class ViewController {
         if (loadedT==false){
         DataBase d=new DataBase();
         HBox row=new HBox();
-
+        try{
         for (int i=0;i<d.getTournamnets().size();i++){
             Tournamnet tournamnet=d.getTournamnets().get(i);
             row=new HBox();
@@ -241,7 +241,11 @@ public class ViewController {
 
     
         }
-    }   loadedT=true;
+        }catch(NullPointerException e){
+            d.resetTournamnets();
+
+        }
+       }loadedT=true;
 
     }
  

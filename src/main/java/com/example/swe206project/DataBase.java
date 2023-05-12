@@ -116,6 +116,18 @@ public class DataBase {
         }
         return false;
     }
+    public void resetTournamnets(){
+        listOfTournamnets=new ArrayList<>();
+        try{
+            listOfTournamnets=new ArrayList<>();
+            ObjectOutputStream writingT =new ObjectOutputStream(new FileOutputStream(tournamnetsFile));
+            writingT.writeObject(listOfTournamnets);
+            writingT.close();
+        }catch(IOException e){
+
+        }
+        
+    }
     
     
     }

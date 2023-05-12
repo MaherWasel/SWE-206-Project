@@ -19,7 +19,7 @@ public class Tournamnet implements Serializable{
     private boolean teamBased;
     private boolean isElemination;
     //need to be added to the class diga
-    private boolean openRegsiteration;
+    private boolean status;
     private LinkedHashMap<Integer,Match[]> stageMatches;
     //change in the class diagram {object[] --> ArrayList<Object> }
     private ArrayList<Object> participants;
@@ -42,7 +42,7 @@ public class Tournamnet implements Serializable{
         this.fnishDate=closingDate;
         this.startDate=startDate;
         this.finshed=false;
-        this.openRegsiteration=true;
+        this.status=true;
         this.stageMatches =new LinkedHashMap<Integer ,Match[]>();
         this.participants=new ArrayList<Object>();
 
@@ -124,7 +124,15 @@ public class Tournamnet implements Serializable{
     }
 
     public void stopRegsteration(){
-        this.openRegsiteration=false;
+        this.status=false;
+    }
+
+    public boolean getPeriodStatus() {
+        if (startDate == null || fnishDate == null) {
+            return false; // Both start and end dates are required
+        }
+        LocalDate currentDate = LocalDate.now(); // Get the current date
+        return !currentDate.isBefore(startDate) && !currentDate.isAfter(fnishDate);
     }
     
 
@@ -175,6 +183,7 @@ public class Tournamnet implements Serializable{
     public void updateRegisterationStatus(){
         if (participants.size()>=numOfParticipants)
             this.stopRegsteration();
+        
     }
     public int getCurrentStage(){
         return currentStage;
@@ -191,9 +200,14 @@ public class Tournamnet implements Serializable{
         if (((newParticipant instanceof Team) && !teamBased)
         ||  ((newParticipant instanceof Student) && teamBased))
             throw new Exception("wrong type");
+        
+        //add the first particepant 
+        if (this.participants.isEmpty()){
+            this.participants.add(newParticipant);
+        }
 
         //the tournament is open and we did not reatch the maxium number of participant
-        if (participants.size()<numOfParticipants && openRegsiteration){
+        else if (participants.size()<numOfParticipants && this.status){
             participants.add(newParticipant);
             this.updateRegisterationStatus();
         }

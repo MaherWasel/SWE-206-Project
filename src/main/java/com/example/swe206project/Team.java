@@ -25,6 +25,9 @@ public class Team  implements Serializable{
     public int getNumberOfMembers() {
         return numberOfMembers;
     }
+    public String toString(){
+        return this.name;
+    }
 
 
     public ArrayList<Student> getMembersList() {

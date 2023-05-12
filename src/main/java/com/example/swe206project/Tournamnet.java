@@ -23,10 +23,13 @@ public class Tournamnet implements Serializable{
     private LinkedHashMap<Integer,Match[]> stageMatches;
     //change in the class diagram {object[] --> ArrayList<Object> }
     private ArrayList<Object> participants;
+    private int currentStage=1;
+
+    private boolean random=false;
+    private Object Winner;
 
 
-
-
+    private boolean allMatchesArePlayed=false;
 
     public Tournamnet(String name, String sport ,boolean teamBased,boolean isElemination , int  numOfParticipants,
      int DurnationBetweenMatches , LocalDate startDate, LocalDate closingDate) {
@@ -45,7 +48,6 @@ public class Tournamnet implements Serializable{
 
         }
 
-
         // boolean methods
     public boolean isteamBased(){
         return this.teamBased;
@@ -57,10 +59,27 @@ public class Tournamnet implements Serializable{
     public boolean isFinished(){
         return this.finshed;
     }
+    public boolean isRandomed(){
+        return this.random;
+    }
+    public boolean isFinishedScoring(){
+        return allMatchesArePlayed;
+    }
+    public void allMatchesArePlayed(){
+        allMatchesArePlayed=true;
+    }
 
     public String toString(){
         return name;
     }
+    public void randomizeTheParticipants(){
+        Collections.shuffle(participants);
+        random=true;
+    }
+    public Object getWinner(){
+        return Winner;
+    }
+
 
     //the getters
 
@@ -81,6 +100,19 @@ public class Tournamnet implements Serializable{
     }
 
     public Match[] getStageMatches( int stage) {
+        if (stage==1){
+            if (random==false){
+                randomizeTheParticipants();
+                int j=0;
+                Match[] list=new Match[participants.size()/2];
+                for (int i=0;i<participants.size();i=i+2){
+                    list[j]=new Match(participants.get(i), participants.get(i+1));
+                    System.out.println(list[j]+" dd"+participants.size());
+                    j++;
+                }
+                stageMatches.put(1, list);
+            }
+        }
         return stageMatches.get(stage);
     }
     
@@ -94,6 +126,7 @@ public class Tournamnet implements Serializable{
     public void stopRegsteration(){
         this.openRegsiteration=false;
     }
+    
 
     @Override
     public boolean equals(Object obj) {
@@ -106,10 +139,12 @@ public class Tournamnet implements Serializable{
         else 
             return false;
         }
+  
 
 
     public void addNewStageMatches(Match[] matches){
-        if (!stageMatches.isEmpty()){
+
+         if (!stageMatches.isEmpty()){
             Integer lastKey = new LinkedList<>(stageMatches.keySet()).getLast();
             this.stageMatches.put(lastKey+1,matches);
 
@@ -118,12 +153,34 @@ public class Tournamnet implements Serializable{
         else
             this.stageMatches.put(1,matches);
     }
+    public void addNewStageMatches(int stage,Object[] list){
+
+      if (this.isElemination){
+        if (list.length==1){
+            allMatchesArePlayed=true;
+            Winner=list[0];
+        }
+        Match[] _list=new Match[list.length/2];
+        int j=0;
+        for (int i=0;i<_list.length;i=i+2){
+            _list[j]=new Match(list[i], list[i+1]);
+        }
+        stageMatches.put(stage, _list);
+
+      }
+    }
 
 
     //add to the class diagram
     public void updateRegisterationStatus(){
         if (participants.size()>=numOfParticipants)
             this.stopRegsteration();
+    }
+    public int getCurrentStage(){
+        return currentStage;
+    }
+    public void nextStage(){
+        currentStage++;
     }
 
 
@@ -144,6 +201,9 @@ public class Tournamnet implements Serializable{
         else
             throw new Exception("reigesteration is closed");
         }
+    public void confirmMatches(int stage, Match[] list){
+        stageMatches.replace(stage, list);
+    }
 
 
 

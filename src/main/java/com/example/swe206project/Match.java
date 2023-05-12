@@ -1,12 +1,14 @@
 package com.example.swe206project;
 
+import java.io.Serializable;
 import  java.util.Date;
-public class Match{
+public class Match implements Serializable{
     private Object contentender1;
     private Object contentender2;
     int contentender1Score;
     int contentender2Score;
     Date finshed;
+    private Boolean isPlayed=false;
     
     
     
@@ -19,6 +21,7 @@ public class Match{
         if (a>=0 && b>=0){
             this.contentender1Score=a;
             this.contentender2Score=b;
+            this.isPlayed=true;
         }
     }
 
@@ -29,13 +32,13 @@ public class Match{
         return contentender2.toString();
     }
 
-    public String showWinner(){
+    public  Object showWinner(){
         if (contentender1Score>contentender2Score)
-            return this.getContentender1Name();
+            return this.contentender1;
         else if(contentender1Score==contentender2Score)
             return "tie";
         else
-            return this.getContentender2Name();
+            return this.contentender2;
 
     }
 
@@ -46,6 +49,9 @@ public class Match{
     // need to be added to the class diagram
     public int getScore2() {
         return contentender2Score;
+    }
+    public boolean isPlayed(){
+        return this.isPlayed;
     }
 
 

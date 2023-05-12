@@ -117,9 +117,73 @@ public class ViewController {
     boolean loadedTName=false;
     @FXML
     private ListView<TextField> RegistrationList;
-
+    private boolean loadedSScene =false;
     @FXML
     private TextField sizeOfTeam_textField;
+    @FXML
+    private ListView<TextField> ListOfEnteredScores;
+
+    @FXML
+    private ListView<HBox> ListOfShownMatches;
+    private List<Match> matches=new ArrayList();
+    private List<TextField> scores=new ArrayList<>();
+    @FXML
+    void ConfirmScoreTriggered(MouseEvent event) {
+        for (int i=0;i<matches.size();i++){
+            try{
+                Tournamnet t=getSelectedTournamnet();
+                int score1=Integer.valueOf(scores.get(i).getText().substring(0, 1));
+                int score2=Integer.valueOf(scores.get(i).getText().substring(2, 3));
+
+                matches.get(i).editMatchScore(score1, score2);
+
+
+            }catch(NumberFormatException e){
+                ErrorScene("Error : wrong input");
+            }
+        }
+        Match[] _list=new Match[matches.size()];
+        Object[] winners=new Object[matches.size()];
+
+        for (int i=0;i<_list.length;i++){
+            _list[i]=matches.get(i);
+            winners[i]=matches.get(i).showWinner();
+        }
+        Tournamnet t=getSelectedTournamnet();
+        t.confirmMatches(t.getCurrentStage(), _list);
+        t.nextStage();
+        t.addNewStageMatches(t.getCurrentStage(), winners);
+        updateTournamentInfo(t);
+        ErrorScene("Entering the scores for stage number " +t.getCurrentStage()+" has been done");
+
+
+        
+    }
+
+    @FXML
+    void loadScores(MouseEvent event) {
+        if (loadedSScene==false){
+        if (this.getSelectedTournamnet().isEleminationType()){
+            Tournamnet t=getSelectedTournamnet();
+            System.out.println(t.getCurrentStage()+"stage");
+            Match[] listOfMatches=t.getStageMatches(t.getCurrentStage());
+            for (int i=0;i<listOfMatches.length;i++){
+                HBox match=new HBox();
+                Label matchLabel=new Label(listOfMatches[i].toString());
+                TextField score=new TextField();
+                matches.add(listOfMatches[i]);
+                scores.add(score);
+                match.getChildren().add(matchLabel);
+                match.getChildren().add(score);
+                ListOfShownMatches.getItems().add(match);;
+            }
+            loadedSScene=true;
+
+        }
+
+
+    }
+    }
 
     @FXML
     void loadTournamnets(MouseEvent event) {
@@ -237,7 +301,7 @@ public class ViewController {
                     return;
                 }
 
-                User _user;
+                Student _user;
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
@@ -263,6 +327,7 @@ public class ViewController {
                 }
 
                 _user=new Student(name, email, singleStudentTextField.getText());
+                _user.setFormatedSoloParticipant("Particpant "+(getSelectedTournamnet().getNumOfRegistredParticipants()+1));
                 Tournamnet _t=getSelectedTournamnet();
                 _t.addParticipant(_user);
                 updateTournamentInfo(_t);
@@ -405,7 +470,8 @@ public class ViewController {
 
         }
         if (getUser() instanceof Student && !getSelectedTournamnet().isteamBased() &&!getSelectedTournamnet().isFinished()){
-        
+                Student _user=(Student) getUser();
+                _user.setFormatedSoloParticipant("Participant "+(getSelectedTournamnet().getNumOfRegistredParticipants()+1));
                 Tournamnet _t=getSelectedTournamnet();
                 _t.addParticipant(getUser());
                 updateTournamentInfo(_t);
@@ -476,6 +542,12 @@ public class ViewController {
     }
 
     public void showAddEditScores(ActionEvent event) throws IOException {
+        if (getSelectedTournamnet().isFinishedScoring()){
+            ErrorScene("Error scoring period is closed");
+            return;
+
+        }
+        
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddEditScores.fxml"));
         root=loader.load();
@@ -488,7 +560,7 @@ public class ViewController {
     public void showViewMembers(ActionEvent event) throws IOException {
         if (!getSelectedTournamnet().isteamBased()){
         for (int i=0;i<getSelectedTournamnet().getParticipants().size();i++){
-            System.out.println(((Student)getSelectedTournamnet().getParticipants().get(i)).getName());
+            System.out.println(((Student)getSelectedTournamnet().getParticipants().get(i)).getFormatedSoloParticipant());
         }
         }
         else {

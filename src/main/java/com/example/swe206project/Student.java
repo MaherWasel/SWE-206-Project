@@ -7,10 +7,19 @@ public class Student extends User {
     private boolean teamMemeberState;
     private ArrayList<Record> records; 
 
+    // to make the name like Participant 1 ..
+    private String formatedSoloParticipant;
     public Student(String name, String email, String userName) {
         super(name, email, userName);
         this.records = new ArrayList<Record>();
     }
+    public String getFormatedSoloParticipant(){
+        return this.formatedSoloParticipant;
+    }
+    public void setFormatedSoloParticipant(String formatedSoloParticipant){
+        this.formatedSoloParticipant=formatedSoloParticipant;
+    }
+
 
     // this will be used when we add a student to a team or he creats the team
     public void setTeamName(String teamName) {

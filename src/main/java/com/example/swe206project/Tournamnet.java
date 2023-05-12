@@ -95,6 +95,14 @@ public class Tournamnet implements Serializable{
         this.openRegsiteration=false;
     }
 
+    public boolean getPeriodStatus() {
+        if (startDate == null || fnishDate == null) {
+            return false; // Both start and end dates are required
+        }
+        LocalDate currentDate = LocalDate.now(); // Get the current date
+        return !currentDate.isBefore(startDate) && !currentDate.isAfter(fnishDate);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Tournamnet){

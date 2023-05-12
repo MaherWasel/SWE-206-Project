@@ -128,12 +128,17 @@ public class Tournamnet implements Serializable{
     }
 
     public boolean getPeriodStatus() {
-        if (startDate == null || fnishDate == null) {
-            return false; // Both start and end dates are required
+         if (this.status==false){
+            return false;
         }
+        else if (numOfParticipants<=participants.size()){
+            return false;
+        }
+        else{
         LocalDate currentDate = LocalDate.now(); // Get the current date
+        
         return !currentDate.isBefore(startDate) && !currentDate.isAfter(fnishDate);
-    }
+    }}
     
 
     @Override
@@ -253,6 +258,14 @@ public class Tournamnet implements Serializable{
         //need to be addedto the class diagram
         private  void shiftForword(ArrayList<Object> arr){    arr.add(0, arr.remove(arr.size()-1));
         }
+        public LocalDate getStartingDate(){
+            return startDate;
+        }
+        
+    
+    public LocalDate getEndingDate(){
+        return fnishDate;
+    }
 
 
 

@@ -215,12 +215,26 @@ public class ViewController {
                 participating= "Indivisual";
             }
             HBox innerRow= new HBox();
-            Label innerLabel=new Label("Sport : "+tournamnet.getSport()+","+" Participating : "+ participating+","+" Type : "+tType+","+"  status : closed");
+            String status;
+            if (tournamnet.getPeriodStatus()){
+                status="open";
+            }
+            else {
+                status="closed";
+            }
+            Label innerLabel=new Label("Sport : "+tournamnet.getSport()+","+" Participating : "+ participating+","+" Type : "+tType+","+"  status : "+status);
             innerLabel.setScaleX(1);
 
             innerRow.getChildren().add(innerLabel);
           
             innerColumn.getChildren().add(innerRow);
+            Label startDate=new Label("Registration starts from : "+tournamnet.getStartingDate().toString());
+            Label endingDate=new Label("Registration ends on : "+tournamnet.getEndingDate().toString());
+            HBox miRow =new HBox(2.5);
+            miRow.getChildren().add(startDate);
+            miRow.getChildren().add(endingDate);
+            innerColumn.getChildren().add(miRow);
+
             row.getChildren().add(innerColumn);
             row.setAlignment(Pos.CENTER);
             row.setOnMouseClicked(e->{
@@ -336,8 +350,7 @@ public class ViewController {
                 _t.addParticipant(_user);
                 updateTournamentInfo(_t);
                 ErrorScene("the student is registered");
-
-              
+                
                 }
                 catch(IOException e){
                     System.out.println(e);
@@ -453,7 +466,12 @@ public class ViewController {
             ErrorScene("Error : the tournamnet is finished");
             return;
         }
+        if (getSelectedTournamnet().getPeriodStatus()==false){
+            ErrorScene("Error the registration is closed");
+            return;
+        }
         if (getSelectedTournamnet().isteamBased()){
+        
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("registationScene_forTeams.fxml"));
         root=loader.load();
@@ -546,10 +564,17 @@ public class ViewController {
     }
 
     public void showAddEditScores(ActionEvent event) throws IOException {
+
+
+
         if (getSelectedTournamnet().isFinishedScoring()){
             ErrorScene("Error scoring period is closed");
             return;
 
+        }
+        else if (getUser() instanceof Student){
+            ErrorScene("ERROR : user is not authorized");
+            return;
         }
         
 

@@ -924,16 +924,7 @@ public class ViewController implements Initializable {
         
     }
     public void showViewMembers(ActionEvent event) throws IOException {
-        if (!getSelectedTournamnet().isteamBased()){
-        for (int i=0;i<getSelectedTournamnet().getParticipants().size();i++){
-            System.out.println(((Student)getSelectedTournamnet().getParticipants().get(i)).getFormatedSoloParticipant());
-        }
-        }
-        else {
-            for (int i=0;i<getSelectedTournamnet().getParticipants().size();i++){
-                System.out.println(((Team)getSelectedTournamnet().getParticipants().get(i)).getName());
-            }
-        }
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewMembers.fxml"));
         root=loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

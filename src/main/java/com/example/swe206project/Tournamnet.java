@@ -263,7 +263,6 @@ public class Tournamnet implements Serializable{
         else if (participants.size()<numOfParticipants && this.status){
             participants.add(newParticipant);
             this.updateRegisterationStatus();
-            System.out.println(((Team)newParticipant).getMembersList()+" daw dawd awd aw");
         }
 
         else

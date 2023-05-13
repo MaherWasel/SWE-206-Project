@@ -1144,9 +1144,11 @@ public class ViewController implements Initializable {
                     Label participant = new Label(((Team) getSelectedTournamnet().getParticipants().get(i)).getName());
                     participant.setMinWidth(Double.POSITIVE_INFINITY);
                     participants.add(participant);
-                    System.out.println(((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList());
-                    for (int j=0 ;j<((Team) getSelectedTournamnet().getParticipants().get(i)).getNumberOfMembers();j++){
+
+
+                    for (int j=0 ;j<((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().size();j++){
                         participant = new Label(((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().get(j).getName());
+//                        System.out.println(((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().get(j).getName());
                         participant.setMinWidth(Double.POSITIVE_INFINITY);
                         participants.add(participant);
                     }

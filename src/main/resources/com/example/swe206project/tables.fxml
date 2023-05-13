@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane onMouseEntered="#loadTable" prefHeight="497.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.swe206project.ViewController">
+   <children>
+      <Label layoutX="34.0" layoutY="14.0" onMouseClicked="#showSelectedTournament" prefHeight="60.0" prefWidth="79.0" text="BACK">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <BorderPane fx:id="tablePane" layoutX="75.0" layoutY="74.0" prefHeight="338.0" prefWidth="552.0" />
+   </children>
+</AnchorPane>

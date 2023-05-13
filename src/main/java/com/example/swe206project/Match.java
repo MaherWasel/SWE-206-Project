@@ -53,7 +53,12 @@ public class Match implements Serializable{
     public boolean isPlayed(){
         return this.isPlayed;
     }
-
+    public Object get1(){
+        return this.contentender1;
+    }
+    public Object get2(){
+        return this.contentender2;
+    }
 
 
     

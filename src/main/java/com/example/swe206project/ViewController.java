@@ -22,9 +22,11 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -41,6 +43,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ViewController {
@@ -128,6 +131,223 @@ public class ViewController {
     private List<Match> matches=new ArrayList();
     private List<TextField> scores=new ArrayList<>();
     @FXML
+    private BorderPane tablePane;
+
+    @FXML 
+    void loadTable(MouseEvent event){
+        
+        if (getSelectedTournamnet().isEleminationType()){
+
+            HBox mainRow=new HBox();
+            VBox mainColumn=new VBox();
+            HBox subRow=new HBox();
+            VBox column=new VBox();
+            int pos=1;
+            int value=0;
+            Label text1=new Label();
+            Label text2=new Label();
+            int count=0;
+            Tournamnet _t=getSelectedTournamnet();
+            Match[] _list=_t.getStageMatches(pos);
+            updateTournamentInfo(_t);
+            System.out.println("hello");
+
+            boolean valid=true;
+            for (int i=1;i!=_t.getNumOfParticipants();i=i*2){
+                value++;
+            }
+            System.out.println(value);
+            for (int i=0;i<value;i++){ //num of mainrows
+
+            try{
+                
+                 _list=_t.getStageMatches(pos);
+                 System.out.println(_list[0]);
+                valid=true;
+
+
+        }   
+        
+            catch (Exception e){
+                valid=false;
+ 
+            }
+
+        
+        
+        
+   
+    
+        finally{
+                if (valid){
+                 _list=_t.getStageMatches(pos);
+            }
+                System.out.println(pos+"pos");
+                if (i==0){
+                    for (int j=0;j<_t.getNumOfParticipants()/(Math.pow(2, pos));j++){
+                    subRow=new HBox();
+                    column=new VBox();
+                    if (valid){
+                        Object t1=_list[j].get1();
+                        if (t1 instanceof Student){
+                        text1=new Label(((Student)_list[j].get1()).getFormatedSoloParticipant());
+                    
+                        text2=new Label(((Student)_list[j].get2()).getFormatedSoloParticipant());
+                        }else {
+                            text1=new Label(_list[j].getContentender1Name());
+                    
+                            text2=new Label(_list[j].getContentender2Name());
+                        }
+                    }else{
+                        text1.setText("");
+                        text2.setText("");
+
+                    }
+                    System.out.println("hey");
+
+                    column.getChildren().add(new Text(text1.getText()+"____"));
+
+                    column.getChildren().add(new Text(text2.getText()+"____"));
+                    subRow.getChildren().add(column);
+                    VBox test=new VBox();
+                    Label t=new Label("|");
+                    t.setScaleY(2.8*(i+1));;
+                    test.getChildren().add(new Text("     "));
+                    if (j==getSelectedTournamnet().getNumOfParticipants()/(Math.pow(2, pos)-2)){
+                        t.setScaleY(1.5*(i+1));
+                    }
+                    test.getChildren().add(t);
+                    subRow.getChildren().add(test);
+                    mainColumn.getChildren().add( subRow);
+
+                    }
+                    mainColumn.getChildren().add(new Text(" "));
+
+                    mainRow.getChildren().add(mainColumn);
+                    count++;
+                }
+
+                else {
+                    mainColumn=new VBox( );
+                    for (int j=0;j<getSelectedTournamnet().getNumOfParticipants()/(Math.pow(2, pos));j++){
+
+                        subRow=new HBox();
+                        column=new VBox();
+                        for (int k=0;k<count;k++){
+                            column.getChildren().add(new Text(" "));
+
+                        }
+                        System.out.println(j);
+                        if (valid){
+                            Object t1=_list[j].get1();
+                            if (t1 instanceof Student){
+                            text1=new Label(((Student)_list[j].get1()).getFormatedSoloParticipant());
+                        
+                            text2=new Label(((Student)_list[j].get2()).getFormatedSoloParticipant());
+                            }else {
+                                text1=new Label(_list[j].getContentender1Name());
+                        
+                                text2=new Label(_list[j].getContentender2Name());
+                            }
+                       
+                           }else{
+                               text1.setText("");
+                               text2.setText("");
+       
+                           }
+                        column.getChildren().add(new Text("____"+text1.getText()));
+                        for (int k=0;k<count;k++){
+                            column.getChildren().add(new Text(" "));}
+                        column.getChildren().add(new Text("____"+text2.getText()));
+                        subRow.getChildren().add(column);
+                        VBox test=new VBox();
+                        Label t=new Label("|");
+                        t.setScaleY(3.5/(i-0.3
+                        ));;
+                        
+        
+                        test.getChildren().add(new Text(""));
+                        if (j==getSelectedTournamnet().getNumOfParticipants()/(Math.pow(2, pos)-2)){
+                            t.setScaleY(4/(i-0.3));
+                        }
+                        for (int k=0;k<count;k++){
+                            Text space=new Text(" ");
+                            space.setScaleY(1.1);
+                        test.getChildren().add(space);
+
+                        }
+                        test.getChildren().add(t);
+                        subRow.getChildren().add(test);
+                        mainColumn.getChildren().add( subRow);
+                        }
+
+                        mainColumn.setScaleX(1.5);
+                        mainColumn.setScaleY(1.05);
+                        mainColumn.setLayoutX(150);
+                        mainRow.getChildren().add(mainColumn);
+                        mainRow.getChildren().add(new Text("         "));
+                        count++;   
+                }   
+            }
+
+            mainRow.setScaleX(1.4);
+            mainRow.setScaleY(1);
+    
+            tablePane.setCenter(mainRow);
+            mainRow.setAlignment(Pos.CENTER);
+            pos++;
+        }
+        if (_t.isFinishedScoring()){
+            if (getSelectedTournamnet().isteamBased()){
+             text1=new Label(getSelectedTournamnet().getWinner().toString());}
+             else {
+                text1=new Label(((Student)getSelectedTournamnet().getWinner()).getFormatedSoloParticipant());
+             }
+  
+            subRow=new HBox();
+            column=new VBox();
+            
+            column.getChildren().add(new Text(" "));
+            column.getChildren().add(new Text(" "));
+
+            column.getChildren().add(new Text("_____"+ text1.getText()));
+            column.setScaleX(1.5);
+            subRow.getChildren().add(column);
+            mainRow.getChildren().add(subRow);
+            tablePane.setCenter(mainRow);
+        }
+            
+            
+        
+
+        }
+    }
+
+
+
+
+
+
+
+
+   
+
+
+      
+    
+    @FXML
+    void generateTables(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("tables.fxml"));
+        root=loader.load();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+  
+
+
+    }
+    @FXML
     void ConfirmScoreTriggered(MouseEvent event) {
         for (int i=0;i<matches.size();i++){
             try{
@@ -154,7 +374,7 @@ public class ViewController {
         t.nextStage();
         t.addNewStageMatches(t.getCurrentStage(), winners);
         updateTournamentInfo(t);
-        ErrorScene("Entering the scores for stage number " +t.getCurrentStage()+" has been done");
+        ErrorScene("Entering the scores for stage number " +(t.getCurrentStage()-1)+" has been done");
 
 
         
@@ -345,7 +565,7 @@ public class ViewController {
                 }
 
                 _user=new Student(name, email, singleStudentTextField.getText());
-                _user.setFormatedSoloParticipant("Particpant "+(getSelectedTournamnet().getNumOfRegistredParticipants()+1));
+                _user.setFormatedSoloParticipant("player "+(getSelectedTournamnet().getNumOfRegistredParticipants()+1));
                 Tournamnet _t=getSelectedTournamnet();
                 _t.addParticipant(_user);
                 updateTournamentInfo(_t);

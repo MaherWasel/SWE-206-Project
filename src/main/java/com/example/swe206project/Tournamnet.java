@@ -113,6 +113,7 @@ public class Tournamnet implements Serializable{
                 stageMatches.put(1, list);
             }
         }
+        
         return stageMatches.get(stage);
     }
     
@@ -172,14 +173,27 @@ public class Tournamnet implements Serializable{
         if (list.length==1){
             allMatchesArePlayed=true;
             Winner=list[0];
+            return;
         }
         Match[] _list=new Match[list.length/2];
         int j=0;
-        for (int i=0;i<_list.length;i=i+2){
+        if (list.length==2){
+            System.out.println("helllllo");
+
+            _list[0]=new Match(list[0], list[1]);
+            stageMatches.put(stage, _list);
+            return;
+
+        
+        }
+        else {
+        for (int i=0;i<=_list.length;i=i+2){
+
             _list[j]=new Match(list[i], list[i+1]);
+            j++;
         }
         stageMatches.put(stage, _list);
-
+    }
       }
     }
 
@@ -221,7 +235,7 @@ public class Tournamnet implements Serializable{
             throw new Exception("reigesteration is closed");
         }
     public void confirmMatches(int stage, Match[] list){
-        stageMatches.replace(stage, list);
+        stageMatches.put(stage, list);
     }
 
 
@@ -260,6 +274,9 @@ public class Tournamnet implements Serializable{
         }
         public LocalDate getStartingDate(){
             return startDate;
+        }
+        public LinkedHashMap<Integer,Match[]> getMap(){
+            return this.stageMatches;
         }
         
     

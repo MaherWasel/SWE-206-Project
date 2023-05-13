@@ -22,7 +22,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="535.0" layoutY="445.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="104.0" text="Generate Tables" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="45.0">
+      <Button alignment="CENTER" layoutX="535.0" layoutY="445.0" mnemonicParsing="false" onAction="#generateTables" prefHeight="49.0" prefWidth="104.0" text="Generate Tables" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="45.0">
          <font>
             <Font size="13.0" />
          </font>

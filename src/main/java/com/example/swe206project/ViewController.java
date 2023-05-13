@@ -158,7 +158,6 @@ public class ViewController {
             for (int i=1;i!=_t.getNumOfParticipants();i=i*2){
                 value++;
             }
-            System.out.println(value);
             for (int i=0;i<value;i++){ //num of mainrows
 
             try{

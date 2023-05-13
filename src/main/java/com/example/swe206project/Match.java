@@ -18,14 +18,12 @@ public class Match implements Serializable{
     }
 
     public void editMatchScore(int a, int b){
-        if (a>=0 && b>=0){
+      
             this.contentender1Score=a;
             this.contentender2Score=b;
             this.isPlayed=true;
-            if (contentender1 instanceof Student){
-
-            }
-        }
+       
+        
         
     }
 

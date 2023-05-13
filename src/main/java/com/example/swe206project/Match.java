@@ -22,7 +22,11 @@ public class Match implements Serializable{
             this.contentender1Score=a;
             this.contentender2Score=b;
             this.isPlayed=true;
+            if (contentender1 instanceof Student){
+
+            }
         }
+        
     }
 
     public String getContentender1Name() {
@@ -34,6 +38,7 @@ public class Match implements Serializable{
 
     public  Object showWinner(){
         if (contentender1Score>contentender2Score)
+            
             return this.contentender1;
         else if(contentender1Score==contentender2Score)
             return "tie";
@@ -41,6 +46,7 @@ public class Match implements Serializable{
             return this.contentender2;
 
     }
+
 
     // need to be added to the class diagram
     public int getScore1() {

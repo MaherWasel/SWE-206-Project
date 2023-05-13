@@ -6,7 +6,7 @@ public class Student extends User {
     private String teamName;
     private boolean teamMemeberState;
     private ArrayList<Record> records; 
-
+    private int code;
     // to make the name like Participant 1 ..
     private String formatedSoloParticipant;
     public Student(String name, String email, String userName) {
@@ -25,7 +25,13 @@ public class Student extends User {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
- 
+    public void setShort(int i){
+        this.code=i;
+    }
+    public int getShort(){
+        return code;
+    }
+
 
     // this will be used to cahnge the condition of the student when he join a team
     public void setTeamMemeberStatue(boolean teamMemeberState) {
@@ -35,8 +41,8 @@ public class Student extends User {
     // this will return the current teamName that the student is registerd on
     public String getTeamName() {
         return teamName;
-    }
 
+    }
     // this will be used when we need to know if the student is already on a team
     public boolean isTeamMemeber() {
         return teamMemeberState;

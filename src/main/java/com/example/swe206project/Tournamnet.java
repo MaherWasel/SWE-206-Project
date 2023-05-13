@@ -28,8 +28,9 @@ public class Tournamnet implements Serializable{
     private boolean random=false;
     private Object Winner;
 
-
+    private LinkedHashMap<String,Integer> acc_Points=new LinkedHashMap();
     private boolean allMatchesArePlayed=false;
+    private boolean intiated=false;
 
     public Tournamnet(String name, String sport ,boolean teamBased,boolean isElemination , int  numOfParticipants,
      int DurnationBetweenMatches , LocalDate startDate, LocalDate closingDate) {
@@ -48,13 +49,42 @@ public class Tournamnet implements Serializable{
 
         }
 
+
         // boolean methods
     public boolean isteamBased(){
         return this.teamBased;
     } 
     public boolean isEleminationType(){
         return this.isElemination;
+    }
+    public void addPoints(Match match){
+        if (intiated==false){
+            for (int i=0;i<numOfParticipants;i++){
+                acc_Points.put(participants.get(i).toString(), 0);
+            }
+            this.intiated=true;
+        }
+        if (match.contentender1Score>match.contentender2Score){
+            int oldValue=acc_Points.get(match.get1().toString());
+            acc_Points.put(match.get1().toString(), oldValue+3);
+        }
+        else if (match.contentender2Score>match.contentender1Score){
+            int oldValue=acc_Points.get(match.get2().toString());
+            acc_Points.put(match.get2().toString(), oldValue+3);
+        }
+        else {
+            int  one=acc_Points.get(match.get1().toString());
+            int  two=acc_Points.get(match.get2().toString());
+            acc_Points.put(match.get1().toString(), one+1);
+            acc_Points.put(match.get2().toString(), two+1);
+
+        }
+      
+
     } 
+    public int point(String particiapnt){
+        return acc_Points.get(particiapnt);
+    }
 
     public boolean isFinished(){
         return this.finshed;
@@ -63,6 +93,9 @@ public class Tournamnet implements Serializable{
         return this.random;
     }
     public boolean isFinishedScoring(){
+        if (this.currentStage==(numOfParticipants)){
+            return true;
+        }
         return allMatchesArePlayed;
     }
     public void allMatchesArePlayed(){
@@ -100,21 +133,22 @@ public class Tournamnet implements Serializable{
     }
 
     public Match[] getStageMatches( int stage) {
-        if (stage==1){
+        if (stage==1 &&this.isElemination){
             if (random==false){
                 randomizeTheParticipants();
                 int j=0;
                 Match[] list=new Match[participants.size()/2];
                 for (int i=0;i<participants.size();i=i+2){
                     list[j]=new Match(participants.get(i), participants.get(i+1));
-                    System.out.println(list[j]+" dd"+participants.size());
                     j++;
                 }
                 stageMatches.put(1, list);
             }
         }
+     
         
         return stageMatches.get(stage);
+ 
     }
     
     public int getNumOfParticipants(){
@@ -242,6 +276,12 @@ public class Tournamnet implements Serializable{
 
     //add to the class diagram
         public  void RoundRobinRoundsGenerator(){
+            if (intiated==false){
+                for (int i=0;i<numOfParticipants;i++){
+                    acc_Points.put(participants.get(i).toString(), 0);
+                }
+                this.intiated=true;
+            }
             ArrayList<Object> conTemp=this.getParticipants();
             Object teamL = conTemp.remove(numOfParticipants-1);
     
@@ -283,9 +323,29 @@ public class Tournamnet implements Serializable{
     public LocalDate getEndingDate(){
         return fnishDate;
     }
+    public static void main(String[] args) throws Exception{
+        Tournamnet t=new Tournamnet("heello", "f", false, false, 4, 3, null, null);
+        t.addParticipant(new Student("ahmed", " ", " "));
+        t.addParticipant(new Student("wasel", " ", " "));
+        t.addParticipant(new Student("ali", " ", " "));
+        t.addParticipant(new Student("saad", " ", " "));
+        
+        t.RoundRobinRoundsGenerator();
+        System.out.println(t.stageMatches);
+       
+            Match[] list=t.stageMatches.get(2);
+            for (int j=0;j<list.length;j++){
+                System.out.println(list[j]+ "round ");
+            }
+   
 
 
+           
+        
 
+    }
+
+ 
 
 
     

@@ -6,13 +6,20 @@ import java.util.ArrayList;
 public class Team  implements Serializable{
     private String name;
     private int numberOfMembers;
+    private int code;
     private ArrayList<Student> membersList;
-
     public Team(String name,ArrayList<Student> membersList) {
         this.name=name;
         this.membersList=membersList;
         this.numberOfMembers = 0;
         this.membersList = new ArrayList<>();
+     
+    }
+    public void setShort(int i){
+        this.code=i;
+    }
+    public int getShort(){
+        return code;
     }
 
     public String getName() {

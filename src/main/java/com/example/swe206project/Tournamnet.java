@@ -263,6 +263,7 @@ public class Tournamnet implements Serializable{
         else if (participants.size()<numOfParticipants && this.status){
             participants.add(newParticipant);
             this.updateRegisterationStatus();
+            System.out.println(((Team)newParticipant).getMembersList()+" daw dawd awd aw");
         }
 
         else
@@ -323,30 +324,5 @@ public class Tournamnet implements Serializable{
     public LocalDate getEndingDate(){
         return fnishDate;
     }
-    public static void main(String[] args) throws Exception{
-        Tournamnet t=new Tournamnet("heello", "f", false, false, 4, 3, null, null);
-        t.addParticipant(new Student("ahmed", " ", " "));
-        t.addParticipant(new Student("wasel", " ", " "));
-        t.addParticipant(new Student("ali", " ", " "));
-        t.addParticipant(new Student("saad", " ", " "));
-        
-        t.RoundRobinRoundsGenerator();
-        System.out.println(t.stageMatches);
-       
-            Match[] list=t.stageMatches.get(2);
-            for (int j=0;j<list.length;j++){
-                System.out.println(list[j]+ "round ");
-            }
-   
-
-
-           
-        
-
-    }
-
- 
-
-
     
 }

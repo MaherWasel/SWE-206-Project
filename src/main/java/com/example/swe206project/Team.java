@@ -12,8 +12,7 @@ public class Team  implements Serializable{
         this.name=name;
         this.membersList=membersList;
         this.numberOfMembers = 0;
-        this.membersList = new ArrayList<>();
-     
+        this.membersList = membersList;
     }
     public void setShort(int i){
         this.code=i;
@@ -38,7 +37,7 @@ public class Team  implements Serializable{
 
 
     public ArrayList<Student> getMembersList() {
-        return (ArrayList<Student>) membersList.clone();
+        return  membersList;
     }
 
     public void addMembers(Student member) {

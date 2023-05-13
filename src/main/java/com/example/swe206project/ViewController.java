@@ -753,9 +753,7 @@ public class ViewController implements Initializable {
         Team team=new Team("TEAM "+(getSelectedTournamnet().getNumOfRegistredParticipants()+1), registredStudents);
         team.setShort(getSelectedTournamnet().getNumOfRegistredParticipants()+1);
         Tournamnet _t=getSelectedTournamnet();
-        
         _t.addParticipant(team);
-        
         updateTournamentInfo(_t);
         ErrorScene("the team is registered");
         
@@ -1143,7 +1141,7 @@ public class ViewController implements Initializable {
             ArrayList<Label> participants = new ArrayList<>();
             if (!getSelectedTournamnet().isteamBased()){
                 for ( int i=0;i<getSelectedTournamnet().getParticipants().size();i++) {
-                    Label participant = new Label(((Student) getSelectedTournamnet().getParticipants().get(i)).getName());
+                    Label participant = new Label(((Student) getSelectedTournamnet().getParticipants().get(i)).getName()+ " : "+(((Student) getSelectedTournamnet().getParticipants().get(i))).getFormatedSoloParticipant());
                     participant.setMinWidth(Double.POSITIVE_INFINITY);
 
 

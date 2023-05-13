@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -48,8 +49,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ViewController {
+public class ViewController implements Initializable {
     private Stage stage; private Scene scene; private Parent root;
     private User user;
     @FXML
@@ -98,6 +100,9 @@ public class ViewController {
 
     @FXML
     private TextField singleStudentTextField;
+
+    @FXML
+    private ListView listOfParticipants= new ListView<>();
 
    
 
@@ -1134,8 +1139,27 @@ public class ViewController {
     }
 
 
-
-
-
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ArrayList<Label> participants = new ArrayList<>();
+        if (!getSelectedTournamnet().isteamBased()){
+            for ( int i=0;i<getSelectedTournamnet().getParticipants().size();i++) {
+                Label participant = new Label(((Student) getSelectedTournamnet().getParticipants().get(i)).getFormatedSoloParticipant());
+                participants.add(participant);
+            }
+        }
+        else {
+            for (int i=0;i<getSelectedTournamnet().getParticipants().size();i++){
+                Label participant = new Label(((Team) getSelectedTournamnet().getParticipants().get(i)).getName());
+                participant.setMinWidth(Double.POSITIVE_INFINITY);
+                participants.add(participant);
+                for (int j=0 ;j<((Team) getSelectedTournamnet().getParticipants().get(i)).getNumberOfMembers();j++){
+                    participant = new Label(((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().get(j).getName());
+                    participant.setMinWidth(Double.POSITIVE_INFINITY);
+                    participants.add(participant);
+                }
+            }
+        }
+        this.listOfParticipants.getItems().addAll(participants);
+    }
 }

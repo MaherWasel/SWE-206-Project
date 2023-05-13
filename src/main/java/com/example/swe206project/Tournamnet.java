@@ -212,7 +212,6 @@ public class Tournamnet implements Serializable{
         Match[] _list=new Match[list.length/2];
         int j=0;
         if (list.length==2){
-            System.out.println("helllllo");
 
             _list[0]=new Match(list[0], list[1]);
             stageMatches.put(stage, _list);

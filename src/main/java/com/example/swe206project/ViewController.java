@@ -167,7 +167,6 @@ public class ViewController implements Initializable {
             try{
                 
                  _list=_t.getStageMatches(pos);
-                 System.out.println(_list[0]);
                 valid=true;
 
 
@@ -465,7 +464,6 @@ public class ViewController implements Initializable {
         else {
             List<Object> l=t.getParticipants();
             for (int i=0;i<l.size();i++){
-                System.out.println(l.get(i).toString()+"points = "+t.point(l.get(i).toString()));
             }
             t.nextStage();
             updateTournamentInfo(t);
@@ -1148,7 +1146,6 @@ public class ViewController implements Initializable {
 
                     for (int j=0 ;j<((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().size();j++){
                         participant = new Label(((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().get(j).getName());
-//                        System.out.println(((Team) getSelectedTournamnet().getParticipants().get(i)).getMembersList().get(j).getName());
                         participant.setMinWidth(Double.POSITIVE_INFINITY);
                         participants.add(participant);
                     }
